@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Stock_Management_U48GFT
 {
-    public partial class Form1 : Form
+    public partial class Form_tracker : Form
     {
-        public Form1()
+        public Form_tracker()
         {
             InitializeComponent();
         }
