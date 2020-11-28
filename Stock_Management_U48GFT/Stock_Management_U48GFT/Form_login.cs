@@ -20,16 +20,16 @@ namespace Stock_Management_U48GFT
         public Form_login()
         {
             InitializeComponent();
-            LoadData("password-hashed.csv");
+            LoadData();
         }
-        public void LoadData(string filename)
+        public void LoadData()
         {
             
-            using (var sr = new StreamReader(filename))
+            using (var sr = new StreamReader(@"Resources\password-hashed.csv"))
             {
                 while(!sr.EndOfStream)
                 {
-                    var line = sr.ReadLine().Split(';');
+                    var line = sr.ReadLine().Split(',');
                     users.Add(line[0]);
                     pass.Add(line[1]);
                 }
@@ -57,11 +57,13 @@ namespace Stock_Management_U48GFT
         private void button2_Click(object sender, EventArgs e)
         {
             string password = textBox2.Text;
-            string pw_hashed = ComputeSha256Hash(password);
-            if (users.Contains(textBox1.Text) && pass.Contains(textBox2.Text) && Array.IndexOf(users.ToArray(), textBox1.Text) == Array.IndexOf(pass.ToArray(), textBox2.Text))
+            string pw_hashed = (ComputeSha256Hash(password)).ToUpper();
+            if (users.Contains(textBox1.Text) && pass.Contains(pw_hashed) && Array.IndexOf(users.ToArray(), textBox1.Text) == Array.IndexOf(pass.ToArray(), pw_hashed))
             {
                 Form_tracker f2 = new Form_tracker();
+                this.Hide();
                 f2.ShowDialog();
+                this.Show();
             }
             else
                 MessageBox.Show("A megadott username és/vagy jelszó hibás!");
