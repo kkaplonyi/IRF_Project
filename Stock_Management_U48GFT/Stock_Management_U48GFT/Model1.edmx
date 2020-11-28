@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="StocksDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Stocks_all">
+          <Key>
+            <PropertyRef Name="Symbol" />
+          </Key>
+          <Property Name="Symbol" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Price" Type="float" />
+          <Property Name="Change" Type="float" />
+          <Property Name="Change_percent" Type="float" />
+          <Property Name="Volume" Type="bigint" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'StocksDB.dbo.Stocks_raw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Stocks_raw">
+          <Key>
+            <PropertyRef Name="OriginalFile" />
+          </Key>
+          <Property Name="Date" Type="date" />
+          <Property Name="Fent" Type="float" />
+          <Property Name="Lent" Type="float" />
+          <Property Name="Nyitas" Type="float" />
+          <Property Name="Zaras" Type="float" />
+          <Property Name="Volume" Type="bigint" />
+          <Property Name="Adj_Close" Type="float" />
+          <Property Name="OriginalFile" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="StocksDBModelStoreContainer">
+          <EntitySet Name="Stocks_all" EntityType="Self.Stocks_all" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stocks_raw" EntityType="Self.Stocks_raw" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Stocks_raw].[Date] AS [Date], 
+    [Stocks_raw].[Fent] AS [Fent], 
+    [Stocks_raw].[Lent] AS [Lent], 
+    [Stocks_raw].[Nyitas] AS [Nyitas], 
+    [Stocks_raw].[Zaras] AS [Zaras], 
+    [Stocks_raw].[Volume] AS [Volume], 
+    [Stocks_raw].[Adj_Close] AS [Adj_Close], 
+    [Stocks_raw].[OriginalFile] AS [OriginalFile]
+    FROM [dbo].[Stocks_raw] AS [Stocks_raw]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StocksDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Stocks_all">
+          <Key>
+            <PropertyRef Name="Symbol" />
+          </Key>
+          <Property Name="Symbol" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="Change" Type="Double" />
+          <Property Name="Change_percent" Type="Double" />
+          <Property Name="Volume" Type="Int64" />
+        </EntityType>
+        <EntityType Name="Stocks_raw">
+          <Key>
+            <PropertyRef Name="OriginalFile" />
+          </Key>
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Fent" Type="Double" />
+          <Property Name="Lent" Type="Double" />
+          <Property Name="Nyitas" Type="Double" />
+          <Property Name="Zaras" Type="Double" />
+          <Property Name="Volume" Type="Int64" />
+          <Property Name="Adj_Close" Type="Double" />
+          <Property Name="OriginalFile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="StocksDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Stocks_all" EntityType="Self.Stocks_all" />
+          <EntitySet Name="Stocks_raw" EntityType="Self.Stocks_raw" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StocksDBModelStoreContainer" CdmEntityContainer="StocksDBEntities">
+          <EntitySetMapping Name="Stocks_all">
+            <EntityTypeMapping TypeName="StocksDBModel.Stocks_all">
+              <MappingFragment StoreEntitySet="Stocks_all">
+                <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Change" ColumnName="Change" />
+                <ScalarProperty Name="Change_percent" ColumnName="Change_percent" />
+                <ScalarProperty Name="Volume" ColumnName="Volume" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stocks_raw">
+            <EntityTypeMapping TypeName="StocksDBModel.Stocks_raw">
+              <MappingFragment StoreEntitySet="Stocks_raw">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Fent" ColumnName="Fent" />
+                <ScalarProperty Name="Lent" ColumnName="Lent" />
+                <ScalarProperty Name="Nyitas" ColumnName="Nyitas" />
+                <ScalarProperty Name="Zaras" ColumnName="Zaras" />
+                <ScalarProperty Name="Volume" ColumnName="Volume" />
+                <ScalarProperty Name="Adj_Close" ColumnName="Adj_Close" />
+                <ScalarProperty Name="OriginalFile" ColumnName="OriginalFile" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

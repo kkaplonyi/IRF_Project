@@ -17,6 +17,7 @@ namespace Stock_Management_U48GFT
     {
         List<string> users = new List<string>();
         List<string> pass = new List<string>();
+        public static string logolt_user = "";
         public Form_login()
         {
             InitializeComponent();
@@ -60,6 +61,7 @@ namespace Stock_Management_U48GFT
             string pw_hashed = (ComputeSha256Hash(password)).ToUpper();
             if (users.Contains(textBox1.Text) && pass.Contains(pw_hashed) && Array.IndexOf(users.ToArray(), textBox1.Text) == Array.IndexOf(pass.ToArray(), pw_hashed))
             {
+                logolt_user = textBox1.Text;
                 Form_tracker f2 = new Form_tracker();
                 this.Hide();
                 f2.ShowDialog();
