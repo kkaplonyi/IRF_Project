@@ -8,16 +8,35 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Cryptography;
+using System.IO;
+//using Stock_Management_U48GFT.Entities;
 
 namespace Stock_Management_U48GFT
 {
     public partial class Form_login : Form
     {
+        List<string> users = new List<string>();
+        List<string> pass = new List<string>();
         public Form_login()
         {
             InitializeComponent();
+            LoadData("password-hashed.csv");
         }
-        static string ComputeSha256Hash(string rawData)
+        public void LoadData(string filename)
+        {
+            
+            using (var sr = new StreamReader(filename))
+            {
+                while(!sr.EndOfStream)
+                {
+                    var line = sr.ReadLine().Split(';');
+                    users.Add(line[0]);
+                    pass.Add(line[1]);
+                }
+            }
+            
+        }
+        private static string ComputeSha256Hash(string rawData)
         {
             // Create a SHA256   
             using (SHA256 sha256Hash = SHA256.Create())
@@ -39,8 +58,15 @@ namespace Stock_Management_U48GFT
         {
             string password = textBox2.Text;
             string pw_hashed = ComputeSha256Hash(password);
-            Console.WriteLine(pw_hashed);
-           
+            if (users.Contains(textBox1.Text) && pass.Contains(textBox2.Text) && Array.IndexOf(users.ToArray(), textBox1.Text) == Array.IndexOf(pass.ToArray(), textBox2.Text))
+            {
+                Form_tracker f2 = new Form_tracker();
+                f2.ShowDialog();
+            }
+            else
+                MessageBox.Show("A megadott username és/vagy jelszó hibás!");
+
+                       
         }
     }
 }
