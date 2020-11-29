@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Stock_Management_U48GFT.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,8 +15,10 @@ namespace Stock_Management_U48GFT
     public partial class Form_all_stocks : Form
     {
         StocksDBEntities context = new StocksDBEntities();
+        Form_tracker f = new Form_tracker();
         List<Stocks_raw> NapiAdatok;
         List<Stocks_all> Stocks_lista;
+        
         decimal a;
         public Form_all_stocks()
         {
@@ -65,9 +68,11 @@ namespace Stock_Management_U48GFT
                 }
             }
 
-        private void button2_Click(object sender, EventArgs e)
+        public void button2_Click(object sender, EventArgs e)
         {
-
+            int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
+            DataGridViewRow selectedRow = dataGridView1.Rows[selectedrowindex];
+            f.AddPortfolioItem(Convert.ToString(selectedRow.Cells["Symbol"].Value), Convert.ToString(selectedRow.Cells["Name"].Value), Convert.ToDecimal(textBox2.Text), Convert.ToDecimal(selectedRow.Cells["Price"].Value), Convert.ToDecimal(label4.Text) );
         }
     }
     }

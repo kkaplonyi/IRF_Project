@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Cryptography;
 using System.IO;
-//using Stock_Management_U48GFT.Entities;
+using Stock_Management_U48GFT.Entities;
 
 namespace Stock_Management_U48GFT
 {

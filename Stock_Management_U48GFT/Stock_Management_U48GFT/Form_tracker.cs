@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using Stock_Management_U48GFT.Entities;
 
 
 namespace Stock_Management_U48GFT
@@ -17,12 +18,18 @@ namespace Stock_Management_U48GFT
         StocksDBEntities context = new StocksDBEntities();
         List<Stocks_raw> NapiAdatok;
         List<Stocks_all> Stocks_lista;
+        public static List<PortfolioItem> PortfolioLista = new List<PortfolioItem>();
+        BindingSource source = new BindingSource();
+        
 
         public Form_tracker()
         {
             InitializeComponent();
             label2.Text = Form_login.logolt_user;
             label4.Text = (DateTime.Today).ToString("dd/MM/yyy");
+            source.DataSource = PortfolioLista;
+            dataGridView1.DataSource = source;
+            chart1.DataSource = source;
         }
 
         private void btn_allstocks_Click(object sender, EventArgs e)
@@ -31,19 +38,39 @@ namespace Stock_Management_U48GFT
             this.Hide();
             f3.ShowDialog();
             this.Show();
+            source.ResetBindings(false);
+
+        }
+        private void ChartLoad()
+        {
+            foreach (var item in PortfolioLista)
+            {
+                chart1.Series.Add(item.symbol);
+                chart1.Series[item.symbol].Enabled = true;
+
+                for (int i = 0; i < 5; i++)
+                {
+
+                }
+            }
+        }
+        public void AddPortfolioItem(string symbol1, string name1, decimal quantity1, decimal price1, decimal totalcost1)
+        {
+            PortfolioLista.Add(new PortfolioItem() { symbol = symbol1, name = name1, quantity = quantity1, price = price1, totalcost = totalcost1 });
+            
         }
 
         private void btn_export_Click(object sender, EventArgs e)
         {
-            /*SaveFileDialog sfd = new SaveFileDialog();
+            SaveFileDialog sfd = new SaveFileDialog();
             sfd.DefaultExt = "csv";
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 Stream FileST = sfd.OpenFile();
                 StreamWriter sw = new StreamWriter(FileST);
 
-                sw.WriteLine("Időszak, Nyereség");
-                foreach (var x in nyereségekRendezve)
+                sw.WriteLine("Symbol, Name, Quantity, Price, TotalCost");
+                foreach (var x in PortfolioLista)
                 {
 
                     sw.WriteLine();
@@ -51,8 +78,26 @@ namespace Stock_Management_U48GFT
 
                 sw.Close();
                 FileST.Close();
-            }*/
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            
+            int selectedrowindex = dataGridView1.SelectedCells[0].RowIndex;
+            DataGridViewRow selectedRow = dataGridView1.Rows[selectedrowindex];
+            var itemtoremove = PortfolioLista.Single(r => r.symbol == Convert.ToString(selectedRow.Cells["Symbol"].Value));
+            PortfolioLista.Remove(itemtoremove);
+            //PortfolioLista.Remove(new PortfolioItem() { symbol = Convert.ToString(selectedRow.Cells["Symbol"].Value), name = Convert.ToString(selectedRow.Cells["Name"].Value), quantity = Convert.ToDecimal(selectedRow.Cells["quantity"].Value), price = Convert.ToDecimal(selectedRow.Cells["Price"].Value), totalcost = Convert.ToDecimal(selectedRow.Cells["totalcost"].Value) });
+            source.ResetBindings(false);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            PortfolioLista.Clear();
+            source.ResetBindings(false);
         }
     }
-}
+    }
+
 

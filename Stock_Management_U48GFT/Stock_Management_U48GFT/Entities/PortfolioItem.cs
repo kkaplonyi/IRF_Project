@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Stock_Management_U48GFT.Entities
 {
-    class PortfolioItem
+    public class PortfolioItem
     {
         public string symbol { get; set; }
         public string name { get; set; }
-        public string quantity { get; set; }
-        public string price { get; set; }
+        public decimal quantity { get; set; }
+        public decimal price { get; set; }
 
-        public string totalcost { get; set; }
+        public decimal totalcost { get; set; }
 
     }
 }
