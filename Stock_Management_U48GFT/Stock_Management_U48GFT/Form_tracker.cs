@@ -52,6 +52,9 @@ namespace Stock_Management_U48GFT
             {
                 //List<Stocks_raw> filternapi = NapiAdatok.Where(x => source.Contains(new PortfolioItem { symbol = x.OriginalFile }) && x.Date >= kezdo).ToList();
                 chart1.DataSource = NapiAdatok;
+                chart1.Series[0].XValueMember = "Date";
+                chart1.Series[0].YValueMembers = "Fent";
+                chart1.DataBind();
                 MessageBox.Show("hiba");
             }
             for (int i = 0; i < source.Count; i++)
