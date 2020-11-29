@@ -20,6 +20,7 @@ namespace Stock_Management_U48GFT
         List<Stocks_all> Stocks_lista;
         public static List<PortfolioItem> PortfolioLista = new List<PortfolioItem>();
         BindingSource source = new BindingSource();
+        Random rnd = new Random();
         
 
         public Form_tracker()
@@ -29,7 +30,10 @@ namespace Stock_Management_U48GFT
             label4.Text = (DateTime.Today).ToString("dd/MM/yyy");
             source.DataSource = PortfolioLista;
             dataGridView1.DataSource = source;
+            ChartLoad();
             chart1.DataSource = source;
+            chart1.DataBind();
+
         }
 
         private void btn_allstocks_Click(object sender, EventArgs e)
@@ -43,16 +47,25 @@ namespace Stock_Management_U48GFT
         }
         private void ChartLoad()
         {
-            foreach (var item in PortfolioLista)
+            
+           foreach (var item in PortfolioLista)
             {
                 chart1.Series.Add(item.symbol);
                 chart1.Series[item.symbol].Enabled = true;
+                List<Stocks_raw> filternapi = NapiAdatok.Where(x => x.OriginalFile == item.symbol).OrderByDescending(r => r.Date).ToList();
 
                 for (int i = 0; i < 5; i++)
                 {
-
+                    var avg = (filternapi[i].Fent + filternapi[i].Lent) / 2;
+                    chart1.Series[item.symbol].Points.AddXY(filternapi[i].Date, avg);
                 }
+                Color randomColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+                chart1.Series[item.symbol].Color = randomColor;
+                
+
+
             }
+
         }
         public void AddPortfolioItem(string symbol1, string name1, decimal quantity1, decimal price1, decimal totalcost1)
         {
@@ -96,6 +109,13 @@ namespace Stock_Management_U48GFT
         {
             PortfolioLista.Clear();
             source.ResetBindings(false);
+        }
+
+        private void Form_tracker_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            source.EndEdit();
+            
+
         }
     }
     }

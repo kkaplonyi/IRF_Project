@@ -27,5 +27,9 @@ namespace Stock_Management_U48GFT
     
         public virtual DbSet<Stocks_all> Stocks_all { get; set; }
         public virtual DbSet<Stocks_raw> Stocks_raw { get; set; }
+        public virtual DbSet<admin> admins { get; set; }
+        public virtual DbSet<tanar> tanars { get; set; }
+        public virtual DbSet<user1> user1 { get; set; }
+        public virtual DbSet<user2> user2 { get; set; }
     }
 }
