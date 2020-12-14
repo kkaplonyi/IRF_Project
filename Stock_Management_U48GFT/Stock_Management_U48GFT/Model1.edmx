@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="StocksDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="StocksDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="admin">
           <Key>
             <PropertyRef Name="Symbol" />
@@ -26,13 +26,12 @@
           <Property Name="Change_percent" Type="float" />
           <Property Name="Volume" Type="bigint" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'StocksDB.dbo.Stocks_raw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Stocks_raw">
           <Key>
+            <PropertyRef Name="Date" />
             <PropertyRef Name="OriginalFile" />
           </Key>
-          <Property Name="Date" Type="date" />
+          <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="Fent" Type="float" />
           <Property Name="Lent" Type="float" />
           <Property Name="Nyitas" Type="float" />
@@ -74,26 +73,26 @@ warning 6002: The table/view 'StocksDB.dbo.Stocks_raw' does not have a primary k
         <EntityContainer Name="StocksDBModelStoreContainer">
           <EntitySet Name="admin" EntityType="Self.admin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Stocks_all" EntityType="Self.Stocks_all" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stocks_raw" EntityType="Self.Stocks_raw" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tanar" EntityType="Self.tanar" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user1" EntityType="Self.user1" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user2" EntityType="Self.user2" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Stocks_raw" EntityType="Self.Stocks_raw" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Stocks_raw].[Date] AS [Date], 
-    [Stocks_raw].[Fent] AS [Fent], 
-    [Stocks_raw].[Lent] AS [Lent], 
-    [Stocks_raw].[Nyitas] AS [Nyitas], 
-    [Stocks_raw].[Zaras] AS [Zaras], 
-    [Stocks_raw].[Volume] AS [Volume], 
-    [Stocks_raw].[Adj_Close] AS [Adj_Close], 
-    [Stocks_raw].[OriginalFile] AS [OriginalFile]
-    FROM [dbo].[Stocks_raw] AS [Stocks_raw]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="StocksDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="Symbol" />
+          </Key>
+          <Property Name="Symbol" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="Double" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="Totalcost" Type="Double" />
+        </EntityType>
         <EntityType Name="Stocks_all">
           <Key>
             <PropertyRef Name="Symbol" />
@@ -107,9 +106,10 @@ warning 6002: The table/view 'StocksDB.dbo.Stocks_raw' does not have a primary k
         </EntityType>
         <EntityType Name="Stocks_raw">
           <Key>
+            <PropertyRef Name="Date" />
             <PropertyRef Name="OriginalFile" />
           </Key>
-          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Fent" Type="Double" />
           <Property Name="Lent" Type="Double" />
           <Property Name="Nyitas" Type="Double" />
@@ -118,29 +118,11 @@ warning 6002: The table/view 'StocksDB.dbo.Stocks_raw' does not have a primary k
           <Property Name="Adj_Close" Type="Double" />
           <Property Name="OriginalFile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
-        <EntityContainer Name="StocksDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Stocks_all" EntityType="Self.Stocks_all" />
-          <EntitySet Name="Stocks_raw" EntityType="Self.Stocks_raw" />
-          <EntitySet Name="admins" EntityType="StocksDBModel.admin" />
-          <EntitySet Name="tanars" EntityType="StocksDBModel.tanar" />
-          <EntitySet Name="user1" EntityType="StocksDBModel.user1" />
-          <EntitySet Name="user2" EntityType="StocksDBModel.user2" />
-        </EntityContainer>
-        <EntityType Name="admin">
-          <Key>
-            <PropertyRef Name="Symbol" />
-          </Key>
-          <Property Name="Symbol" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Quantity" Type="Double" />
-          <Property Name="Price" Type="Double" />
-          <Property Name="Totalcost" Type="Double" />
-        </EntityType>
         <EntityType Name="tanar">
           <Key>
             <PropertyRef Name="Symbol" />
           </Key>
-          <Property Name="Symbol" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Symbol" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Quantity" Type="Double" />
           <Property Name="Price" Type="Double" />
@@ -150,7 +132,7 @@ warning 6002: The table/view 'StocksDB.dbo.Stocks_raw' does not have a primary k
           <Key>
             <PropertyRef Name="Symbol" />
           </Key>
-          <Property Name="Symbol" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Symbol" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Quantity" Type="Double" />
           <Property Name="Price" Type="Double" />
@@ -160,18 +142,37 @@ warning 6002: The table/view 'StocksDB.dbo.Stocks_raw' does not have a primary k
           <Key>
             <PropertyRef Name="Symbol" />
           </Key>
-          <Property Name="Symbol" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Symbol" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Quantity" Type="Double" />
           <Property Name="Price" Type="Double" />
           <Property Name="Totalcost" Type="Double" />
         </EntityType>
+        <EntityContainer Name="StocksDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="admins" EntityType="Self.admin" />
+          <EntitySet Name="Stocks_all" EntityType="Self.Stocks_all" />
+          <EntitySet Name="Stocks_raw" EntityType="Self.Stocks_raw" />
+          <EntitySet Name="tanars" EntityType="Self.tanar" />
+          <EntitySet Name="user1" EntityType="Self.user1" />
+          <EntitySet Name="user2" EntityType="Self.user2" />
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="StocksDBModelStoreContainer" CdmEntityContainer="StocksDBEntities">
+          <EntitySetMapping Name="admins">
+            <EntityTypeMapping TypeName="StocksDBModel.admin">
+              <MappingFragment StoreEntitySet="admin">
+                <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Totalcost" ColumnName="Totalcost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Stocks_all">
             <EntityTypeMapping TypeName="StocksDBModel.Stocks_all">
               <MappingFragment StoreEntitySet="Stocks_all">
@@ -198,47 +199,36 @@ warning 6002: The table/view 'StocksDB.dbo.Stocks_raw' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="admins">
-            <EntityTypeMapping TypeName="StocksDBModel.admin">
-              <MappingFragment StoreEntitySet="admin">
-                <ScalarProperty Name="Totalcost" ColumnName="Totalcost" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Symbol" ColumnName="Symbol" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tanars">
             <EntityTypeMapping TypeName="StocksDBModel.tanar">
               <MappingFragment StoreEntitySet="tanar">
-                <ScalarProperty Name="Totalcost" ColumnName="Totalcost" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Totalcost" ColumnName="Totalcost" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="user1">
             <EntityTypeMapping TypeName="StocksDBModel.user1">
               <MappingFragment StoreEntitySet="user1">
-                <ScalarProperty Name="Totalcost" ColumnName="Totalcost" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Totalcost" ColumnName="Totalcost" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="user2">
             <EntityTypeMapping TypeName="StocksDBModel.user2">
               <MappingFragment StoreEntitySet="user2">
-                <ScalarProperty Name="Totalcost" ColumnName="Totalcost" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Totalcost" ColumnName="Totalcost" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -4,13 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4b9d792433494272a30145ef046ead02" Name="Diagram1">
-        <EntityTypeShape EntityType="StocksDBModel.Stocks_all" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="StocksDBModel.Stocks_raw" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="StocksDBModel.admin" Width="1.5" PointX="0.75" PointY="4.75" />
-        <EntityTypeShape EntityType="StocksDBModel.tanar" Width="1.5" PointX="2.75" PointY="4.75" />
-        <EntityTypeShape EntityType="StocksDBModel.user1" Width="1.5" PointX="4.75" PointY="4.75" />
-        <EntityTypeShape EntityType="StocksDBModel.user2" Width="1.5" PointX="5.75" PointY="0.75" />
+      <Diagram DiagramId="6586841ccb8c4a3aa1a2718a8930ebd2" Name="Diagram1">
+        <EntityTypeShape EntityType="StocksDBModel.admin" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StocksDBModel.Stocks_all" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StocksDBModel.Stocks_raw" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StocksDBModel.tanar" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StocksDBModel.user1" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StocksDBModel.user2" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

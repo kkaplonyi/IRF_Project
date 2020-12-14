@@ -14,7 +14,7 @@ namespace Stock_Management_U48GFT
     
     public partial class Stocks_raw
     {
-        public Nullable<System.DateTime> Date { get; set; }
+        public System.DateTime Date { get; set; }
         public Nullable<double> Fent { get; set; }
         public Nullable<double> Lent { get; set; }
         public Nullable<double> Nyitas { get; set; }

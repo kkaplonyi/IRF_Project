@@ -8,12 +8,12 @@ namespace Stock_Management_U48GFT.Entities
 {
     public class PortfolioItem
     {
-        public string symbol { get; set; }
-        public string name { get; set; }
-        public decimal quantity { get; set; }
-        public decimal price { get; set; }
+        public string Symbol { get; set; }
+        public string Name { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal Price { get; set; }
 
-        public decimal totalcost { get; set; }
+        public decimal Totalcost { get; set; }
 
     }
 }
