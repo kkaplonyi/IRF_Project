@@ -31,7 +31,13 @@ namespace Stock_Management_U48GFT
         SqlCommand cmd;
         SqlConnection con;
         SqlDataAdapter da;
-        
+
+        Timer t = new Timer();
+        int WIDTH = 300 / 4, HEIGHT = 300 / 4, secHAND = 140 / 4, minHAND = 110 / 4, hrHAND = 80 / 4; 
+        int cy, cx;
+        Bitmap bmp;
+        Graphics cg;
+
 
         public Form_tracker()
         {
@@ -111,6 +117,92 @@ namespace Stock_Management_U48GFT
             toltve = true;
             ChartLoad();
             notifyIcon.Icon = SystemIcons.Application;
+
+            bmp = new Bitmap(WIDTH + 1, HEIGHT + 1);
+            // placing in center  
+            cx = WIDTH / 2;
+            cy = HEIGHT / 2;
+            //backcolor  
+            this.BackColor = Color.White;
+            //timer  
+            t.Interval = 1000; // i.e. tick in milisecond  
+            t.Tick += new EventHandler(this.t_Tick);
+            t.Start();
+        }
+        private void t_Tick(object sender, EventArgs e)
+        {
+            // create an image  
+            cg = Graphics.FromImage(bmp);
+            //get time  
+            int ss = DateTime.Now.Second;
+            int mm = DateTime.Now.Minute;
+            int hh = DateTime.Now.Hour;
+            int[] handCoord = new int[2];
+            //get time  
+            cg.Clear(SystemColors.Control);
+            //draw a circle  
+            cg.DrawEllipse(new Pen(Color.Black, 2), 0, 0, WIDTH, HEIGHT);
+            //draw clock numbers  
+            cg.DrawString("12", new Font("Ariel", 6), Brushes.Black, new PointF(140 / 4, 3 / 4));
+            cg.DrawString("1", new Font("Ariel", 6), Brushes.Black, new PointF(218 / 4, 22 / 4));
+            cg.DrawString("2", new Font("Ariel", 6), Brushes.Black, new PointF(263 / 4, 70 / 4));
+            cg.DrawString("3", new Font("Ariel", 6), Brushes.Black, new PointF(285 / 4, 140 / 4));
+            cg.DrawString("4", new Font("Ariel", 6), Brushes.Black, new PointF(263 / 4, 212 / 4));
+            cg.DrawString("5", new Font("Ariel", 6), Brushes.Black, new PointF(218 / 4, 259 / 4));
+            cg.DrawString("6", new Font("Ariel", 6), Brushes.Black, new PointF(142 / 4, 279 / 4));
+            cg.DrawString("7", new Font("Ariel", 6), Brushes.Black, new PointF(70 / 4, 259 / 4));
+            cg.DrawString("8", new Font("Ariel", 6), Brushes.Black, new PointF(22 / 4, 212 / 4));
+            cg.DrawString("9", new Font("Ariel", 6), Brushes.Black, new PointF(1 / 4, 140 / 4));
+            cg.DrawString("10", new Font("Ariel", 6), Brushes.Black, new PointF(22 / 4, 70 / 4));
+            cg.DrawString("11", new Font("Ariel", 6), Brushes.Black, new PointF(70 / 4, 22 / 4));
+            //draw seconds hand  
+            handCoord = msCoord(ss, secHAND);
+            cg.DrawLine(new Pen(Color.Red, 2), new Point(cx, cy), new Point(handCoord[0], handCoord[1]));
+            //draw minutes hand  
+            handCoord = msCoord(mm, minHAND);
+            cg.DrawLine(new Pen(Color.Black, 3), new Point(cx, cy), new Point(handCoord[0], handCoord[1]));
+            //draw hours hand  
+            handCoord = hrCoord(hh % 12, mm, hrHAND);
+            cg.DrawLine(new Pen(Color.Black, 3), new Point(cx, cy), new Point(handCoord[0], handCoord[1]));
+            //load the bitmap image  
+            pictureBox1.Image = bmp;
+            //display time in the heading  
+            cg.Dispose();
+        }
+        //coord for minute and second  
+        private int[] msCoord(int val, int hlen)
+        {
+            int[] coord = new int[2];
+            val *= 6; // note: each minute and seconds make a 6 degree  
+            if (val >= 0 && val <= 100)
+            {
+                coord[0] = cx + (int)(hlen * Math.Sin(Math.PI * val / 180));
+                coord[1] = cy - (int)(hlen * Math.Cos(Math.PI * val / 180));
+            }
+            else
+            {
+                coord[0] = cx - (int)(hlen * -Math.Sin(Math.PI * val / 180));
+                coord[1] = cy - (int)(hlen * Math.Cos(Math.PI * val / 180));
+            }
+            return coord;
+        }
+        //coord for hour  
+        private int[] hrCoord(int hval, int mval, int hlen)
+        {
+            int[] coord = new int[2];
+            //each hour makes 60 degree with min making 0.5 degree  
+            int val = (int)((hval * 30) + (mval * 0.5));
+            if (val >= 0 && val <= 180)
+            {
+                coord[0] = cx + (int)(hlen * Math.Sin(Math.PI * val / 180));
+                coord[1] = cy - (int)(hlen * Math.Cos(Math.PI * val / 180));
+            }
+            else
+            {
+                coord[0] = cx - (int)(hlen * -Math.Sin(Math.PI * val / 180));
+                coord[1] = cy - (int)(hlen * Math.Cos(Math.PI * val / 180));
+            }
+            return coord;
         }
 
         private void btn_allstocks_Click(object sender, EventArgs e)
@@ -201,13 +293,6 @@ namespace Stock_Management_U48GFT
             ChartLoad();
         }
 
-        private void Form_tracker_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            
-            
-
-        }
-
         private  void btn_sync_Click(object sender, EventArgs e)
         {
             var current_user = Form_login.logolt_user;
@@ -249,6 +334,6 @@ namespace Stock_Management_U48GFT
             
         }
     }
-    }
+}
 
 

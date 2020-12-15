@@ -43,8 +43,10 @@
             this.label4 = new System.Windows.Forms.Label();
             this.btn_sync = new System.Windows.Forms.Button();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // chart1
@@ -183,11 +185,20 @@
             this.notifyIcon.Text = "notifyIcon1";
             this.notifyIcon.Visible = true;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(513, 14);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(170, 100);
+            this.pictureBox1.TabIndex = 5;
+            this.pictureBox1.TabStop = false;
+            // 
             // Form_tracker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1544, 528);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btn_sync);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label4);
@@ -201,10 +212,10 @@
             this.Controls.Add(this.chart1);
             this.Name = "Form_tracker";
             this.Text = "Form1";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_tracker_FormClosing);
             this.Load += new System.EventHandler(this.Form_tracker_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -224,6 +235,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btn_sync;
         private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
