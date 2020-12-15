@@ -161,6 +161,7 @@
     <Content Include="Resources\password-hashed.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\user-password.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
