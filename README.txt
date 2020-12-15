@@ -12,7 +12,7 @@ A tervezett funkciók Burka Dávid Tanár Úrral egyeztetve:
 8) A portfolio mentése (nem exportálás) esetén az adatok visszakerülnek az adatbázisba így amikor a user legközelebb visszalép tudja folytatni, ahol abbahagyta.
 
 A megvalósított funkciók:
-1) pipa, a jelszavak hash algoritmussal lefordított formájukban kerülnek tárolásra így növelve az adatbiztonságot.
+1) pipa, a jelszavak hash algoritmussal lefordított formájukban kerülnek tárolásra így növelve az adatbiztonságot. (eredeti jelszo kombinációkat ellenorzes céljából a "user-password.csv" tartalmazza a Resources mappán belül)
 2) pipa, Bloomberg terminál api használatával SQL adatbázis feltöltésre került.
 3) pipa
 4) pipa
