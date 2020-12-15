@@ -26,6 +26,8 @@ namespace Stock_Management_U48GFT
         BindingList<PortfolioItem> source = new BindingList<PortfolioItem>(PortfolioLista);
         Random rnd = new Random();
 
+        bool toltve = false;
+
         SqlCommand cmd;
         SqlConnection con;
         SqlDataAdapter da;
@@ -106,6 +108,7 @@ namespace Stock_Management_U48GFT
 
             }
             dataGridView1.DataSource = source;
+            toltve = true;
             ChartLoad();
             notifyIcon.Icon = SystemIcons.Application;
         }
@@ -125,8 +128,10 @@ namespace Stock_Management_U48GFT
             var objChart = chart1.ChartAreas[0];
             objChart.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Days;
             objChart.AxisY.IsStartedFromZero = false;
+            objChart.AxisX.Title = "Date";
+            objChart.AxisY.Title = "Price";
 
-            
+
             //datek
 
             var kezdo = DateTime.Parse("09/11/2020").Date;
@@ -223,7 +228,26 @@ namespace Stock_Management_U48GFT
             notifyIcon.ShowBalloonTip(3000, "Üzenet", "Portfolió sikeresen szinkronizálva!", ToolTipIcon.Info);
         }
 
-        
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            if (toltve == true)
+            {
+                var curSymbol = Convert.ToString(dataGridView1.CurrentRow.Cells[0].Value);
+                foreach (var item in chart1.Series)
+                {
+                    if (item.Name==curSymbol)
+                    {
+                        item.BorderWidth = 10;
+                    }
+                    else
+                    {
+                        item.BorderWidth = 3;
+                    }
+                }
+                
+            }
+            
+        }
     }
     }
 
